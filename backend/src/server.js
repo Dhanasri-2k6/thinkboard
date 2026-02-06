@@ -5,21 +5,24 @@ import dotenv from "dotenv";
 import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import rateLimiter from "./middleware/rateLimiter.js";
+import path from "path";
 
 dotenv.config();
 // console.log(process.env.MONGO_URI);
 const app = express();
 const PORT = process.env.PORT || 5002;
+const __dirname = path.resolve();
 
 // middleware should be placed here only (before )  app.use("/api/notes", notesRoutes);
 
 // middleware
-
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
-);
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+    }),
+  );
+}
 app.use(express.json());
 app.use(rateLimiter);
 // this is a simple custom middleware that we can use
@@ -36,6 +39,13 @@ app.use("/api/notes", notesRoutes);
 
 // endpoint: combination of url+http method that lets the client interact with the specific resource
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
+}
 // this is called the route
 connectDB().then(() => {
   app.listen(PORT, () => {

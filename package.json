@@ -1,0 +1,23 @@
+{
+  "name": "notemaker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm run start"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhanasri-2k6/thinkboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Dhanasri-2k6/thinkboard/issues"
+  },
+  "homepage": "https://github.com/Dhanasri-2k6/thinkboard#readme"
+}
